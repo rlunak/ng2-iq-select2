@@ -165,6 +165,5 @@
                 }
             }
         }
-    },
-    "defaultProject": "ng2-iq-select2-app"
+    }
 }

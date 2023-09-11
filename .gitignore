@@ -6,6 +6,7 @@
 /tmp
 /lib
 /aot
+/.angular/cache
 *.js.map
 *.d.ts
 /src/app/*.js

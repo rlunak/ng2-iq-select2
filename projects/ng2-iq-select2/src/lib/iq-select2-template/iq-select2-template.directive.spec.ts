@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule} from '@angular/forms';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
@@ -80,9 +80,9 @@ class TestHostComponent implements OnInit {
 
     @ViewChild(IqSelect2Component, /* TODO: add static flag */ {})
     childComponent: IqSelect2Component;
-    fg: FormGroup;
+    fg: UntypedFormGroup;
 
-    constructor(private formBuilder: FormBuilder) {
+    constructor(private formBuilder: UntypedFormBuilder) {
     }
 
     ngOnInit(): void {

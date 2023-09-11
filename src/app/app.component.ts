@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {map, tap} from 'rxjs/operators';
 import {Country, DataService} from './data.service';
 import {IqSelect2Item} from '../../projects/ng2-iq-select2/src/lib/iq-select2/iq-select2-item';
@@ -12,7 +12,7 @@ import {IqSelect2Component} from '../../projects/ng2-iq-select2/src/lib/iq-selec
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    public form: FormGroup;
+    public form: UntypedFormGroup;
     public listItems: (term: string) => Observable<Country[]>;
     public listItemsMax: (term: string, ids: string[]) => Observable<Country[]>;
     public getItems: (ids: string[]) => Observable<Country[]>;
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     @ViewChild('countrySingle') countrySingle: IqSelect2Component;
 
     constructor(private dataService: DataService,
-                private formBuilder: FormBuilder) {
+                private formBuilder: UntypedFormBuilder) {
     }
 
     ngOnInit() {
@@ -30,8 +30,8 @@ export class AppComponent implements OnInit {
                 value: '',
                 disabled: true
             },
-            lastname: new FormControl(''),
-            option: new FormControl(''),
+            lastname: new UntypedFormControl(''),
+            option: new UntypedFormControl(''),
             countrySingle: [{
                 id: '16',
                 name: 'Argentina',
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
                 color: '#c1ee5b'
             }, Validators.required],
             countryMultiple: null,
-            countryMultipleDisabled: new FormControl({
+            countryMultipleDisabled: new UntypedFormControl({
                 value: [{
                     id: '16',
                     name: 'Argentina',

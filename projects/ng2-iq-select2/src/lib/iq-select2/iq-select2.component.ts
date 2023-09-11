@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, forwardRef, Input, Output, TemplateRef, ViewChild} from '@angular/core';
 import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Messages} from './messages';
 import {Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
@@ -54,7 +54,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     @ViewChild('termInput') private termInput;
     @ViewChild('results') results: IqSelect2ResultsComponent;
     templateRef: TemplateRef<any>;
-    term = new FormControl();
+    term = new UntypedFormControl();
     resultsVisible = false;
     listData: IqSelect2Item[];
     fullDataList: IqSelect2Item[];
