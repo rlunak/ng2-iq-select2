@@ -51,8 +51,8 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     @Input() badgeColor = 'info';
     @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
     @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
-    @ViewChild('termInput') private termInput;
-    @ViewChild('results') results: IqSelect2ResultsComponent;
+    @ViewChild('termInput', { static: false }) private termInput;
+    @ViewChild('results', { static: false }) results: IqSelect2ResultsComponent;
     templateRef: TemplateRef<any>;
     term = new FormControl();
     resultsVisible = false;

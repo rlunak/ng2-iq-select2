@@ -972,7 +972,7 @@ describe('IqSelect2Component', () => {
 })
 class TestHostComponent implements OnInit {
 
-    @ViewChild(IqSelect2Component)
+    @ViewChild(IqSelect2Component, /* TODO: add static flag */ {})
     childComponent: IqSelect2Component;
     fg: FormGroup;
 
