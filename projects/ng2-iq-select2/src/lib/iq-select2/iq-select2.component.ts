@@ -367,7 +367,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     }
 
     getBadgeColor(): string {
-        return this.multiple ? 'badge-' + this.badgeColor : '';
+        return this.multiple ? 'bg-' + this.badgeColor : '';
     }
 
 }

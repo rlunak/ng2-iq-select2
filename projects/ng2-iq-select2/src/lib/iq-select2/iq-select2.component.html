@@ -12,10 +12,10 @@
                 [class.badge]="multiple">
 
                 <span class="selectedItemText">{{item.text}}</span>
-                <a class="select2-selection-remove" (click)="removeItem(item)" *ngIf="!disabled">
-                    <i *ngIf="deleteIcon" [class]="deleteIcon" [class.text-info]="!multiple"></i>
-                    <span *ngIf="!deleteIcon" class="remove-icon-times">&times;</span>
-                </a>
+                <div *ngIf="!disabled" class="select2-selection-remove" (click)="removeItem(item)">
+                    <i *ngIf="deleteIcon" [class]="deleteIcon"></i>
+                    <button *ngIf="!deleteIcon" (click)="removeItem(item)" type="button" class="btn-close" [class.btn-close-white]="multiple" aria-label="Close"></button>
+                </div>
 
             </li>
         </ng-container>

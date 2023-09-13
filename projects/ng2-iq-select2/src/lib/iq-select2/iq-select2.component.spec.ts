@@ -3,8 +3,6 @@ import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angula
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule} from '@angular/forms';
 import {IqSelect2Component} from './iq-select2.component';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {EMPTY, of} from 'rxjs';
 import {DataService} from '../data.service';
@@ -18,15 +16,7 @@ describe('IqSelect2Component', () => {
             declarations: [IqSelect2Component, IqSelect2ResultsComponent, TestHostComponent],
             imports: [ReactiveFormsModule],
             providers: [
-                DataService,
-                MockBackend,
-                BaseRequestOptions, {
-                    provide: Http,
-                    useFactory: (mockBackend, options) => {
-                        return new Http(mockBackend, options);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
+                DataService
             ]
         })
             .compileComponents();

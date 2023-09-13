@@ -66,29 +66,39 @@ input:focus {
     z-index: 3;
 }
 
-a.select2-selection-remove {
+div.select2-selection-remove {
     position: absolute;
     right: 10px;
+    top: 0;
+    display: inline-block;
 }
 
 .multiple-selection .select2-selected {
-    margin: 0 1px;
-    position: relative;
-    padding: 4px;
-    bottom: 1px;
+    margin: 0 1px 2px;
+    --bs-badge-font-size: 1em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2em;
 }
 
-.multiple-selection .select2-selected:first-child {
-    margin-left: 0;
-}
-
-.multiple-selection a.select2-selection-remove {
+.multiple-selection div.select2-selection-remove {
     position: relative;
     right: initial;
 }
 
-a.select2-selection-remove:hover {
+div.select2-selection-remove:hover {
     cursor: pointer;
+}
+
+.multiple-selection div.select2-selection-remove {
+    display: flex;
+    align-items: center;
+}
+
+div.select2-selection-remove .btn-close {
+    width: 0.3em;
+    height: 0.3em;
+    padding: 0.2em;
 }
 
 .select2-container .search-focused {

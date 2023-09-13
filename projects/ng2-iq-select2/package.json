@@ -1,12 +1,13 @@
 {
   "name": "ng2-iq-select2",
-  "version": "9.0.2",
   "repository": "innqube/ng2-iq-select2",
-  "dependencies": {
-    "tslib": "^2.0.0"
-  },
+  "version": "16.2.4",
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
-  }
+    "@angular/common": "^16.2.0",
+    "@angular/core": "^16.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
 }

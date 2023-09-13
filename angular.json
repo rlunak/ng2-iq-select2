@@ -13,11 +13,13 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-            "aot": true,
+                      "aot": true,
                         "outputPath": "dist/ng2-iq-select2-app",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "polyfills": "src/polyfills.ts",
+                        "polyfills": [
+                          "zone.js"
+                        ],
                         "tsConfig": "src/tsconfig.app.json",
                         "assets": [
                             "src/favicon.ico",
@@ -49,8 +51,7 @@
                             "namedChunks": false,
                             "aot": true,
                             "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true
+                            "vendorChunk": false
                         }
                     }
                 },
@@ -72,12 +73,14 @@
                     }
                 },
                 "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
+                    "builder": "@angular-devkit/build-angular:jest",
                     "options": {
                         "main": "src/test.ts",
-                        "polyfills": "src/polyfills.ts",
+                        "polyfills": [
+                          "zone.js",
+                          "zone.js/testing"
+                        ],
                         "tsConfig": "src/tsconfig.spec.json",
-                        "karmaConfig": "src/karma.conf.js",
                         "styles": [
                             "src/styles.css"
                         ],
@@ -131,7 +134,7 @@
             "prefix": "iq",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-ng-packagr:build",
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
                     "options": {
                         "tsConfig": "projects/ng2-iq-select2/tsconfig.lib.json",
                         "project": "projects/ng2-iq-select2/ng-package.json"
@@ -144,11 +147,11 @@
                     }
                 },
                 "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
+                    "builder": "@angular-devkit/build-angular:jest",
                     "options": {
                         "main": "projects/ng2-iq-select2/src/test.ts",
                         "tsConfig": "projects/ng2-iq-select2/tsconfig.spec.json",
-                        "karmaConfig": "projects/ng2-iq-select2/karma.conf.js"
+                        "jestConfig": "projects/ng2-iq-select2/jest.config.js"
                     }
                 },
                 "lint": {
