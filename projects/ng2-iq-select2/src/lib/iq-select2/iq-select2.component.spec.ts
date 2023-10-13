@@ -57,7 +57,7 @@ describe('IqSelect2Component', () => {
 
     it('should show results when clicking on caret (minimumInputLength === 0)', fakeAsync(() => {
         component.searchFocused = true;
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         fixture.detectChanges();
         fixture.nativeElement.querySelector('.caret').click();
         expect(component.resultsVisible).toBe(true);
@@ -65,7 +65,7 @@ describe('IqSelect2Component', () => {
 
     it('should not show results when clicking on caret (minimumInputLength !== 0)', fakeAsync(() => {
         component.searchFocused = true;
-        component.minimumInputLength = 1;
+        component.debounceLength = 1;
         fixture.detectChanges();
         fixture.nativeElement.querySelector('.caret').click();
         expect(component.resultsVisible).toBe(false);
@@ -98,14 +98,14 @@ describe('IqSelect2Component', () => {
         })));
 
     it('should not show results when term.length < minimumInputLength', fakeAsync(() => {
-        component.minimumInputLength = 4;
+        component.debounceLength = 4;
         component.term.setValue('arg');
         tick(250);
         expect(component.resultsVisible).toBeFalsy();
     }));
 
     it('should show results when term.length === minimumInputLength', fakeAsync(() => {
-        component.minimumInputLength = 3;
+        component.debounceLength = 3;
         component.searchFocused = true;
         component.term.setValue('arg');
         tick(250);
@@ -113,7 +113,7 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should show results when term.length > minimumInputLength', fakeAsync(() => {
-        component.minimumInputLength = 2;
+        component.debounceLength = 2;
         component.searchFocused = true;
         component.term.setValue('arg');
         tick(250);
@@ -219,7 +219,7 @@ describe('IqSelect2Component', () => {
         tick(250);
         fixture.detectChanges();
 
-        const lis = fixture.nativeElement.querySelectorAll('.select2-result');
+        const lis = fixture.nativeElement.querySelectorAll('.select2-dropdown-item');
         lis[0].dispatchEvent(new Event('mousedown'));
         tick(250);
 
@@ -328,7 +328,7 @@ describe('IqSelect2Component', () => {
             }
         });
 
-        hostComponent.childComponent.minimumInputLength = 2;
+        hostComponent.childComponent.debounceLength = 2;
         hostComponent.childComponent.ngAfterViewInit();
 
         hostComponent.childComponent.term.setValue('a');
@@ -441,7 +441,7 @@ describe('IqSelect2Component', () => {
     it('should show selected value on single mode',
         inject([DataService], fakeAsync((service: DataService) => {
             component.selectedProvider = (ids: string[]) => service.getItems(ids);
-            component.minimumInputLength = 0;
+            component.debounceLength = 0;
             component.multiple = false;
             component.referenceMode = 'id';
             fixture.detectChanges();
@@ -455,7 +455,7 @@ describe('IqSelect2Component', () => {
     it('multiple mode with minimumInputLength 0 should not show the loaded values in the initial dropdown',
         inject([DataService], fakeAsync((service: DataService) => {
             component.selectedProvider = (ids: string[]) => service.getItems(ids);
-            component.minimumInputLength = 0;
+            component.debounceLength = 0;
             component.multiple = true;
             component.referenceMode = 'id';
             fixture.detectChanges();
@@ -507,7 +507,7 @@ describe('IqSelect2Component', () => {
     })));
 
     it('should select focused item when tab key is pressed', () => {
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.resultsVisible = true;
         component.listData = [{
             id: '1',
@@ -519,7 +519,7 @@ describe('IqSelect2Component', () => {
     });
 
     it('should select next item when down arrow is pressed', fakeAsync(() => {
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.resultsVisible = true;
         fixture.detectChanges();
         spyOn(component.results, 'activeNext');
@@ -529,7 +529,7 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should select previous item when up arrow is pressed', fakeAsync(() => {
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.resultsVisible = true;
         fixture.detectChanges();
         spyOn(component.results, 'activePrevious');
@@ -539,7 +539,7 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should select current item when enter is pressed', fakeAsync(() => {
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.resultsVisible = true;
         fixture.detectChanges();
         spyOn(component.results, 'selectCurrentItem');
@@ -549,7 +549,7 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should focus input when enter is pressed with minimumInputLength === 0 and no results visible', fakeAsync(() => {
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.resultsVisible = false;
         fixture.detectChanges();
         spyOn(component, 'focusAndShowResults');
@@ -559,7 +559,7 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should focus input when down arrow is pressed with minimumInputLength === 0 and no results visible', fakeAsync(() => {
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.resultsVisible = false;
         fixture.detectChanges();
         spyOn(component, 'focusAndShowResults');
@@ -569,7 +569,7 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should delete selected item when delete is pressed', fakeAsync(() => {
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.results = undefined;
         component.selectedItems = [{
             id: '1',
@@ -583,7 +583,7 @@ describe('IqSelect2Component', () => {
     }));
 
     it('should not delete selected item when delete is pressed and there is text entered', () => {
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.results = undefined;
         component.selectedItems = [{
             id: '1',
@@ -597,7 +597,7 @@ describe('IqSelect2Component', () => {
     });
 
     it('should delete selected item when delete is pressed and remove it from the list of selected items', fakeAsync(() => {
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.ngAfterViewInit();
         component.selectedItems = [{
             id: '1',
@@ -658,12 +658,12 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        const mra = fixture.nativeElement.querySelectorAll('span.results-msg');
+        const mra = fixture.nativeElement.querySelectorAll('span.select2-message');
         expect(mra.length).toBe(0);
     });
 
     it('should show moreResultsAvailable message if number of results < resultsCount', () => {
-        component.resultsCount = 2;
+        component.maxResults = 2;
         component.listData = [{
             id: '1',
             text: 'test'
@@ -671,13 +671,13 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        const mra = fixture.nativeElement.querySelectorAll('span.results-msg');
+        const mra = fixture.nativeElement.querySelectorAll('span.select2-message');
         expect(mra.length).toBe(1);
     });
 
     it('should not show moreResultsAvailable message if results are not visible', () => {
         component.resultsVisible = false;
-        component.resultsCount = 1;
+        component.maxResults = 1;
         component.listData = [{
             id: '1',
             text: 'test'
@@ -687,13 +687,13 @@ describe('IqSelect2Component', () => {
         }];
         fixture.detectChanges();
 
-        const mra = fixture.nativeElement.querySelectorAll('span.results-msg');
+        const mra = fixture.nativeElement.querySelectorAll('span.select2-message');
         expect(mra.length).toBe(0);
     });
 
 
     it('should not show moreResultsAvailable message if resultsShown = resultsCount', () => {
-        component.resultsCount = 1;
+        component.maxResults = 1;
         component.listData = [{
             id: '1',
             text: 'test'
@@ -701,7 +701,7 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        const mra = fixture.nativeElement.querySelectorAll('span.results-msg');
+        const mra = fixture.nativeElement.querySelectorAll('span.select2-message');
         expect(mra.length).toBe(0);
     });
 
@@ -713,7 +713,7 @@ describe('IqSelect2Component', () => {
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        const nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');
+        const nra = fixture.nativeElement.querySelectorAll('span.no-results');
         expect(nra.length).toBe(0);
     });
 
@@ -723,14 +723,14 @@ describe('IqSelect2Component', () => {
         component.searchFocused = true;
         fixture.detectChanges();
 
-        const nra = fixture.nativeElement.querySelectorAll('span.no-results-msg');
+        const nra = fixture.nativeElement.querySelectorAll('span.no-results');
         expect(nra.length).toBe(1);
     });
 
     // https://github.com/Innqube/ng2-iq-select2/issues/27
     it('should delete selected items when multiple === true and resultsVisible',
         inject([DataService], fakeAsync((service: DataService) => {
-            component.minimumInputLength = 0;
+            component.debounceLength = 0;
             component.selectedItems = [{id: '1', text: 'test'}];
             component.resultsVisible = true;
             fixture.detectChanges();
@@ -741,39 +741,35 @@ describe('IqSelect2Component', () => {
     );
 
     it('should replace count variables with value', () => {
-        component.resultsCount = 2;
+        component.maxResults = 2;
         component.listData = [{id: '1', text: 'test'}];
         component.resultsVisible = true;
         fixture.detectChanges();
 
-        const mra = fixture.nativeElement.querySelector('span.results-msg');
+        const mra = fixture.nativeElement.querySelector('span.select2-message');
         expect(mra.innerHTML.trim()).toContain('Showing 1 of 2 results');
     });
 
     it('should not introduce variables value', () => {
-        component.resultsCount = 2;
+        component.maxResults = 2;
         component.listData = [{id: '1', text: 'test'}];
         component.resultsVisible = true;
-        component.messages = {
-            moreResultsAvailableMsg: 'Another message'
-        };
+        component.messageMoreResults = 'Another message';
         fixture.detectChanges();
 
-        const mra = fixture.nativeElement.querySelector('span.results-msg');
+        const mra = fixture.nativeElement.querySelector('span.select2-message');
         expect(mra.innerHTML.trim().indexOf('1')).toBe(-1);
         expect(mra.innerHTML.trim().indexOf('2')).toBe(-1);
     });
 
     it('should replace message', () => {
-        component.resultsCount = 2;
+        component.maxResults = 2;
         component.listData = [{id: '1', text: 'test'}];
         component.resultsVisible = true;
-        component.messages = {
-            moreResultsAvailableMsg: 'Another message'
-        };
+        component.messageMoreResults = 'Another message';
         fixture.detectChanges();
 
-        const mra = fixture.nativeElement.querySelector('span.results-msg');
+        const mra = fixture.nativeElement.querySelector('span.select2-message');
         expect(mra.innerHTML.trim()).toBe('Another message');
     });
 
@@ -805,7 +801,7 @@ describe('IqSelect2Component', () => {
                 color: '#c1ee5b'
             }
         };
-        component.minimumInputLength = 0;
+        component.debounceLength = 0;
         component.clientMode = true;
         component.multiple = true;
         component.selectedItems = [selectedItem];
@@ -854,7 +850,7 @@ describe('IqSelect2Component', () => {
             hostComponent.childComponent.multiple = false;
             hostComponent.childComponent.referenceMode = 'entity';
             hostComponent.childComponent.placeholder = 'This is the original placeholder';
-            hostComponent.childComponent.minimumInputLength = 0;
+            hostComponent.childComponent.debounceLength = 0;
             hostComponent.childComponent.dataSourceProvider = (term: string) => service.listData(term);
             hostComponent.childComponent.selectedProvider = (ids: string[]) => service.getItems(ids);
             hostComponent.childComponent.iqSelect2ItemAdapter = adapter();

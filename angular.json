@@ -47,7 +47,6 @@
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": false,
-                            "extractCss": true,
                             "namedChunks": false,
                             "aot": true,
                             "extractLicenses": true,
@@ -141,9 +140,9 @@
                     },
                     "configurations": {
                         "production": {
-                            "project": "projects/ng2-iq-select2/ng-package.prod.json"
-                        ,              "tsConfig": "projects/ng2-iq-select2/tsconfig.lib.prod.json"
-}
+                            "project": "projects/ng2-iq-select2/ng-package.prod.json",
+                            "tsConfig": "projects/ng2-iq-select2/tsconfig.lib.prod.json"
+                        }
                     }
                 },
                 "test": {

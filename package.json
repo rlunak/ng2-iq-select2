@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4201",
     "build": "ng build",
     "test": "jest ng2-iq-select2",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build_lib": "ng build --prod ng2-iq-select2",
+    "build_lib": "ng build --configuration=production ng2-iq-select2",
     "npm_pack": "cd dist/ng2-iq-select2 && npm pack",
     "package": "npm run build_lib && npm run npm_pack"
   },

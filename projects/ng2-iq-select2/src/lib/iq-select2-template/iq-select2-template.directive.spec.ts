@@ -58,7 +58,7 @@ describe('IqSelect2TemplateDirective', () => {
         component.term.setValue('tunisia');
         tick(250);
         parentFixture.detectChanges();
-        const container: NodeSelector = parentFixture.nativeElement.querySelector('.select2-result.active');
+        const container: NodeSelector = parentFixture.nativeElement.querySelector('.select2-dropdown-item.active');
         // query dom based on class from custom template
         expect(container.querySelector('.color').innerHTML).toBe('#fcd217');
         expect(container.querySelector('.code').innerHTML).toBe('TN');

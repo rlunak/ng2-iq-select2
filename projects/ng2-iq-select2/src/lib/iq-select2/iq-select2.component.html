@@ -1,56 +1,38 @@
 <div class="select2-container">
-    <ul (click)="focusAndShowResults()"
-        [class]="getCss()"
-        [class.simple-selection]="!multiple"
-        [class.multiple-selection]="multiple"
-        [class.search-focused]="searchFocused"
-        [class.readonly]="disabled">
-
-        <ng-container *ngIf="!searchFocused || multiple">
-            <li *ngFor="let item of selectedItems"
-                [class]="'select2-selected ' + getBadgeColor()"
-                [class.badge]="multiple">
-
-                <span class="selectedItemText">{{item.text}}</span>
-                <div *ngIf="!disabled" class="select2-selection-remove" (click)="removeItem(item)">
-                    <i *ngIf="deleteIcon" [class]="deleteIcon"></i>
-                    <button *ngIf="!deleteIcon" (click)="removeItem(item)" type="button" class="btn-close" [class.btn-close-white]="multiple" aria-label="Close"></button>
-                </div>
-
-            </li>
-        </ng-container>
-        <li class="select2-input">
-            <input #termInput type="text"
-                   [placeholder]="getPlaceholder()"
-                   [formControl]="term"
-                   [class.transparent]="!multiple && selectedItems.length > 0 && !searchFocused"
-                   (focus)="onFocus()"
-                   (blur)="onBlur()"
-                   (keyup)="onKeyUp($event)"
-                   (keydown)="onKeyDown($event)"
-                   (keypress)="onKeyPress($event)"
-                   *ngIf="!disabled"/>
+  <div
+    class="select2-inner-container" [ngClass]="inputContainerClass ? inputContainerClass : ''"
+    [class.simple-selection]="!multiple" [class.multiple-selection]="multiple"
+    [class.search-focused]="searchFocused" [class.readonly]="disabled"
+    (click)="focusAndShowResults()"
+  >
+    <ul class="select2-selection-container">
+      <ng-container *ngIf="!searchFocused || multiple">
+        <li *ngFor="let item of selectedItems" class="select2-selected">
+          <span class="select2-selected-item" [ngStyle]="{whitespace: wrapSelectedText}" [title]="item.text">{{item.text}}</span>
+          <button *ngIf="!disabled" class="select2-icon" aria-label="Close" (click)="removeItem(item)">
+            <span class="select2-selection-remove" [innerHTML]="iconDelete"></span>
+          </button>
         </li>
+      </ng-container>
 
-        <div *ngIf="!disabled && (multiple || (!multiple && selectedItems.length === 0))" class="caret">
-            <span *ngIf="!searchIcon" class="caret-symbol">&#9660;</span>
-            <span [class]="searchIcon" *ngIf="searchIcon && minimumInputLength===0"
-                  (click)="focusAndShowResults()"></span>
-            <span [class]="searchIcon" *ngIf="searchIcon && minimumInputLength!==0"></span>
-        </div>
-
+      <li class="select2-input-container">
+        <input #termInput *ngIf="!disabled" [formControl]="term" type="text" [placeholder]="getPlaceholder()"
+          [class.transparent]="!multiple && selectedItems.length > 0 && !searchFocused"
+          (focus)="onFocus()" (blur)="onBlur()"
+          (keyup)="onKeyUp($event)" (keydown)="onKeyDown($event)"
+        />
+      </li>
     </ul>
 
-    <div class="results-container" *ngIf="resultsVisible">
-        <span class="results-msg" *ngIf="listData && (listData.length + selectedItems.length) < resultsCount">
-            {{getCountMessage()}}
-        </span>
-        <span class="results-msg no-results-msg" *ngIf="searchFocused && listData && listData.length === 0">
-            {{messages && messages.noResultsAvailableMsg ? messages.noResultsAvailableMsg : NO_RESULTS_MSG}}
-        </span>
-        <iq-select2-results #results [selectedItems]="selectedItems" [items]="listData"
-                            (itemSelectedEvent)="onItemSelected($event);"
-                            [templateRef]="templateRef"
-                            [searchFocused]="searchFocused"></iq-select2-results>
+    <div *ngIf="!disabled && (multiple || (!multiple && selectedItems.length === 0))" class="select2-icon">
+      <span class="select2-selection-caret" [innerHTML]="iconCaret"></span>
     </div>
+  </div>
+
+  <iq-select2-results #results [resultsVisible]="resultsVisible"
+    [items]="listData" [selectedItems]="selectedItems" [maxResults]="maxResults"
+    [messageMoreResults]="messageMoreResults" [messageNoResults]="messageNoResults"
+    [templateRef]="templateRef" (onItemSelected)="onItemSelected($event);"
+  >
+  </iq-select2-results>
 </div>
