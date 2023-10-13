@@ -1,4 +1,8 @@
-# ng2-iq-select2
+# ng2-iq-select2 - updated to Angular 16 & Booststrap 5
+
+## :warning: Tests don't work and the readme doesn't reflect the current state, but we don't care :shrug:
+
+---
 
 [![InnQUbe](http://www.innqube.com/assets/images/badge.svg)](http://www.innqube.com/)
 [![Build Status](https://travis-ci.org/Innqube/ng2-iq-select2.svg?branch=master)](https://travis-ci.org/Innqube/ng2-iq-select2)

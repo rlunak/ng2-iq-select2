@@ -35,7 +35,7 @@ import { IqSelect2Module } from 'ng2-iq-select2';
 *html file*
 ```html
 <form [formGroup]="form">
-    <iq-select2 css="form-control input-sm" 
+    <iq-select2 inputContainerClass="form-control input-sm" 
                 formControlName="country" 
                 [dataSourceProvider]="listCountries"
                 [selectedProvider]="loadFromIds"
@@ -46,7 +46,7 @@ import { IqSelect2Module } from 'ng2-iq-select2';
 *html file (custom template)*
 ```html
 <form [formGroup]="form">
-  <iq-select2 css="form-control input-sm" 
+  <iq-select2 inputContainerClass="form-control input-sm" 
                 formControlName="country" 
                 [dataSourceProvider]="listCountries"
                 [selectedProvider]="loadFromIds"

@@ -68,13 +68,13 @@ describe('IqSelect2ResultsComponent', () => {
     });
 
     it('should emit event on item selection', () => {
-        spyOn(component.itemSelectedEvent, 'emit');
+        spyOn(component.onItemSelected, 'emit');
         component.selectCurrentItem();
-        expect(component.itemSelectedEvent.emit).toHaveBeenCalled();
+        expect(component.onItemSelected.emit).toHaveBeenCalled();
     });
 
     it('should reset active index after selection', () => {
-        spyOn(component.itemSelectedEvent, 'emit');
+        spyOn(component.onItemSelected, 'emit');
         component.activeNext();
         component.selectCurrentItem();
         expect(component.activeIndex).toBe(0);
