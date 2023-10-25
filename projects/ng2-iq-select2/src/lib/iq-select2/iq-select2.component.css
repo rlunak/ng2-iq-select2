@@ -67,6 +67,7 @@
   align-items: baseline;
   justify-content: flex-start;
   gap: 0.2em;
+  overflow: hidden;
 
   list-style-type: none;
   padding: 0;
@@ -96,7 +97,6 @@
 
 .select2-icon {
   color: inherit;
-  cursor: pointer;
   font-size: 1em;
   z-index: 5;
   display: grid;
@@ -109,13 +109,17 @@
   }
 }
 
+:not(.readonly) > .select2-icon {
+  cursor: pointer;
+}
+
 .select2-selected-item {
   width: 100%;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .readonly {
   background-color: var(--select2-color-disabled);
+  cursor: not-allowed;
 }

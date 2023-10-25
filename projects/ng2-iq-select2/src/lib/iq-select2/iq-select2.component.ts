@@ -37,7 +37,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   @Input() maxResults: number;
   @Input() clientMode = false;
   @Input() badgeColor = 'info';
-  @Input() wrapSelectedText = 'initial'
+  @Input() wrapSelectedText = 'nowrap'
 
   @Input() debounceDelay = 250
   @Input() debounceLength = 2

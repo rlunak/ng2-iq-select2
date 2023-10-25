@@ -24,12 +24,12 @@
       </li>
     </ul>
 
-    <div *ngIf="!disabled && (multiple || (!multiple && selectedItems.length === 0))" class="select2-icon">
+    <div *ngIf="(multiple || (!multiple && selectedItems.length === 0))" class="select2-icon">
       <span class="select2-selection-caret" [innerHTML]="iconCaret"></span>
     </div>
   </div>
 
-  <iq-select2-results #results [resultsVisible]="resultsVisible"
+  <iq-select2-results *ngIf="!disabled" #results [resultsVisible]="resultsVisible"
     [items]="listData" [selectedItems]="selectedItems" [maxResults]="maxResults"
     [messageMoreResults]="messageMoreResults" [messageNoResults]="messageNoResults"
     [templateRef]="templateRef" (onItemSelected)="onItemSelected($event);"
