@@ -5,6 +5,8 @@
     (click)="focusAndShowResults()"
   >
     <ul class="select2-selection-container">
+      <ng-container *ngIf="!multiple; then input"></ng-container>
+
       <li *ngFor="let item of selectedItems" class="select2-selected">
         <span class="select2-selected-item" [ngStyle]="{whitespace: wrapSelectedText}" [title]="item.text">{{item.text}}</span>
         <button *ngIf="!disabled" class="select2-icon" aria-label="Close" (click)="removeItem(item)">
@@ -12,11 +14,16 @@
         </button>
       </li>
 
-      <li *ngIf="!disabled" class="select2-input-container">
-        <input #termInput [formControl]="term" type="text" [placeholder]="getPlaceholder()" autocomplete="off"
-          (focus)="onFocus()" (blur)="onBlur()" (keyup)="onKeyUp($event)" (keydown)="onKeyDown($event)"
-        />
-      </li>
+
+      <ng-container *ngIf="multiple; then input"></ng-container>
+
+      <ng-template #input>
+        <li *ngIf="!disabled" class="select2-input-container">
+          <input #termInput [formControl]="term" type="text" [placeholder]="getPlaceholder()" autocomplete="off"
+                 (focus)="onFocus()" (blur)="onBlur()" (keyup)="onKeyUp($event)" (keydown)="onKeyDown($event)"
+          />
+        </li>
+      </ng-template>
     </ul>
 
     <div *ngIf="(multiple || (!multiple && selectedItems.length === 0))" class="select2-icon">

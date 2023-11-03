@@ -20,8 +20,6 @@
 
         <div class="form-group">
             <label>Country (Single)</label>
-            <input type="checkbox" formControlName="habilitado"/>
-            <a (click)="countrySingle.focus()"> set focus</a>
             <iq-select2 #countrySingle inputContainerClass="form-control form-control-sm" placeholder="Start writing..."
                         formControlName="countrySingle"
                         [dataSourceProvider]="listItems"

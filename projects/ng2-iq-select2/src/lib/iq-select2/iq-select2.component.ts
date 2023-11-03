@@ -6,22 +6,21 @@ import {Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import Messages from "./messages";
 
-const KEY_CODE_DOWN_ARROW = 40;
-const KEY_CODE_UP_ARROW = 38;
-const KEY_CODE_ENTER = 13;
-const KEY_CODE_TAB = 9;
-const KEY_CODE_DELETE = 8;
-const VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => IqSelect2Component),
-  multi: true
-};
+const KEY_CODE_DOWN_ARROW = 'ArrowDown';
+const KEY_CODE_UP_ARROW = 'ArrowUp';
+const KEY_CODE_ENTER = 'Enter';
+const KEY_CODE_ESCAPE = 'Escape';
+const KEY_CODE_DELETE = 'Delete';
 
 @Component({
   selector: 'iq-select2',
   templateUrl: './iq-select2.component.html',
   styleUrls: ['./iq-select2.component.css'],
-  providers: [VALUE_ACCESSOR]
+  providers: [{
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => IqSelect2Component),
+      multi: true
+  }]
 })
 export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
 
@@ -49,7 +48,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
   @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
 
-  @ViewChild('termInput') private termInput: ElementRef
+  @ViewChild('termInput') termInput: ElementRef
   @ViewChild('results') results: IqSelect2ResultsComponent;
 
   templateRef: TemplateRef<any>;
@@ -58,7 +57,6 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   listData: IqSelect2Item[] = []
   fullDataList: IqSelect2Item[];
   selectedItems: IqSelect2Item[] = [];
-  searchFocused = false;
   private placeholderSelected = '';
 
   onTouchedCallback: () => void = () => false
@@ -106,15 +104,15 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
       filter((term) => term.length >= this.debounceLength),
       switchMap(term => this.loadDataFromObservable(term)),
       map(items => items.filter(item => !(this.multiple && this.alreadySelected(item)))),
-      tap(() => this.resultsVisible = this.searchFocused)
+      tap(() => this.resultsVisible = true)
     ).subscribe((items) => this.listData = items);
   }
 
   private loadDataFromObservable(term: string): Observable<IqSelect2Item[]> {
-    return this.clientMode ? this.fetchAndfilterLocalData(term) : this.fetchData(term);
+    return this.clientMode ? this.fetchAndFilterLocalData(term) : this.fetchData(term);
   }
 
-  private fetchAndfilterLocalData(term: string): Observable<IqSelect2Item[]> {
+  private fetchAndFilterLocalData(term: string): Observable<IqSelect2Item[]> {
     if (!this.fullDataList) {
       return this.fetchData('').pipe(
         mergeMap((items) => {
@@ -128,11 +126,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   }
 
   private filterLocalData(term: string): Observable<IqSelect2Item[]> {
-    return of(this.fullDataList.filter((item) => this.containsText(item, term)));
-  }
-
-  private containsText(item, term: string) {
-    return item.text.toUpperCase().indexOf(term.toUpperCase()) !== -1;
+    return of(this.fullDataList.filter(item => item.text.toLowerCase().includes(term.toLowerCase())));
   }
 
   private fetchData(term: string): Observable<IqSelect2Item[]> {
@@ -223,13 +217,16 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
 
     this.onChangeCallback(this.buildValue());
     this.term.patchValue('', {emitEvent: false});
-    setTimeout(() => this.focus(), 1);
-    this.resultsVisible = false;
-    this.onSelect.emit(item);
 
-    if (!this.multiple) {
+    if (this.multiple) {
+      setTimeout(() => {this.focusAndShowResults();}, 1);
+    } else {
+      this.resultsVisible = false;
       this.placeholderSelected = item.text;
+      this.termInput.nativeElement.blur()
     }
+
+    this.onSelect.emit(item);
   }
 
   private getSelectedIds(): any {
@@ -268,23 +265,13 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   }
 
   onFocus() {
-    this.searchFocused = true;
+    this.focusAndShowResults()
   }
 
   onBlur() {
     this.term.patchValue('', {emitEvent: false});
-    this.searchFocused = false;
     this.resultsVisible = false;
     this.onTouchedCallback();
-  }
-
-  focus() {
-    if (!this.disabled) {
-      this.termInput.nativeElement.focus();
-      this.resultsVisible = false;
-    }
-
-    this.searchFocused = !this.disabled;
   }
 
   focusAndShowResults() {
@@ -293,42 +280,48 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
       this.subscribeToResults(of(''));
     }
 
-    this.searchFocused = !this.disabled;
+    this.resultsVisible = !this.disabled;
   }
 
-  onKeyUp(ev) {
+  onKeyUp(event: KeyboardEvent) {
     if (this.results) {
-      if (ev.keyCode === KEY_CODE_DOWN_ARROW) {
-        this.results.activeNext();
-      } else if (ev.keyCode === KEY_CODE_UP_ARROW) {
-        this.results.activePrevious();
-      } else if (ev.keyCode === KEY_CODE_ENTER) {
+      if (event.key === KEY_CODE_ENTER) {
         this.results.selectCurrentItem();
       }
     } else {
       if (this.debounceLength === 0) {
-        if (ev.keyCode === KEY_CODE_ENTER || ev.keyCode === KEY_CODE_DOWN_ARROW) {
+        if (event.key === KEY_CODE_ENTER || event.key === KEY_CODE_DOWN_ARROW) {
           this.focusAndShowResults();
         }
       }
     }
   }
 
-  onKeyDown(ev) {
-    if (ev.keyCode === KEY_CODE_ENTER) {
-      ev.preventDefault();
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === KEY_CODE_ENTER) {
+      event.preventDefault();
     }
 
-    if (this.results) {
-      if (ev.keyCode === KEY_CODE_TAB) {
-        this.results.selectCurrentItem();
-      }
+    if (!this.resultsVisible && event.key.includes('Arrow')) {
+      this.resultsVisible = true
     }
 
-    if (ev.keyCode === KEY_CODE_DELETE) {
+    if (event.key === KEY_CODE_ESCAPE) {
+      this.resultsVisible = false
+    }
+
+    if (event.key === KEY_CODE_DELETE) {
       const textEntered = !this.term.value || this.term.value.length === 0;
       if (textEntered && this.selectedItems.length > 0) {
         this.removeItem(this.selectedItems[this.selectedItems.length - 1]);
+      }
+    }
+
+    if (this.results) {
+      if (event.key === KEY_CODE_DOWN_ARROW) {
+        this.results.activeNext();
+      } else if (event.key === KEY_CODE_UP_ARROW) {
+        this.results.activePrevious();
       }
     }
   }

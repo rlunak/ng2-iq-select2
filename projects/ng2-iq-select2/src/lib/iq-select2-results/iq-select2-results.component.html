@@ -7,7 +7,7 @@
     {{messageNoResults}}
   </div>
 
-  <div *ngFor="let item of items | slice:0:maxResults; let i = index;" id="item_{{i}}" [attr.data-item-id]="item.id" [title]="item.text"
+  <div *ngFor="let item of items | slice : 0 : maxResults; let i = index;" id="item_{{i}}" [attr.data-item-id]="item.id" [title]="item.text"
        class="select2-dropdown-item" [class.selected]="isSelected(item)" [class.active]="i === activeIndex"
        (mousedown)="selectItem(item)" (mouseover)="onMouseOver(i)" (mouseenter)="onHovering($event)"
   >

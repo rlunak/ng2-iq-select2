@@ -35,8 +35,8 @@ export class IqSelect2ResultsComponent implements OnInit {
   }
 
   activeNext() {
-    if (this.activeIndex >= this.items.length - 1) {
-      this.activeIndex = this.items.length - 1;
+    if (this.activeIndex >= (this.maxResults ?? this.items.length) - 1) {
+      this.activeIndex = 0;
     } else {
       this.activeIndex++;
     }
@@ -47,7 +47,7 @@ export class IqSelect2ResultsComponent implements OnInit {
 
   activePrevious() {
     if (this.activeIndex - 1 < 0) {
-      this.activeIndex = 0;
+      this.activeIndex = this.items.length - 1;
     } else {
       this.activeIndex--;
     }

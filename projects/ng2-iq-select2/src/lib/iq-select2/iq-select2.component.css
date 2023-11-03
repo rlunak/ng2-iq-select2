@@ -17,8 +17,10 @@
 }
 
 .select2-inner-container {
-  display: grid;
-  grid-template-columns: 1fr min-content;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+  justify-content: space-between;
   gap: 0.2em;
 
   &:focus-within {
@@ -41,7 +43,7 @@
   }
 
   &:focus-within {
-    & .select2-selected {
+    & .select2-selected-item {
       opacity: 0;
     }
   }
@@ -75,7 +77,6 @@
   align-items: baseline;
   justify-content: flex-start;
   gap: 0.2em;
-  overflow: hidden;
 
   list-style-type: none;
   padding: 0;
@@ -106,14 +107,22 @@
 .select2-icon {
   color: inherit;
   font-size: 1em;
+  width: 1em;
+  height: 1em;
   z-index: 5;
   display: grid;
+  place-content: center;
 
   &:is(button) {
     background-color: transparent;
     border: 0;
     outline: 0;
-    padding: 0;
+
+    &:focus {
+      border: 1px solid var(--select2-color-focused-border);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0.1rem var(--select2-color-focused-shadow);
+    }
   }
 }
 
