@@ -103,9 +103,13 @@ export class DataService {
     }
 
     public listData(pattern: string, maxResults?: number): Observable<Country[]> {
+      if (pattern) {
         return of(this.list
-            .filter((country) => country.name.toUpperCase().indexOf(pattern.toUpperCase()) !== -1)
-            .sort(this.sortFunction));
+          .filter((country) => country.name.toUpperCase().indexOf(pattern.toUpperCase()) !== -1)
+          .sort(this.sortFunction));
+      } else {
+        return of(this.list.sort(this.sortFunction));
+      }
     }
 
     private sortFunction(country1: Country, country2: Country) {
