@@ -338,7 +338,13 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   }
 
   getPlaceholder(): string {
-    return this.selectedItems.length > 0 ? this.placeholderSelected : this.placeholder;
+    const placeholder = this.selectedItems.length > 0 ? this.placeholderSelected : this.placeholder
+
+    if (!this.multiple && !this.searchFocused) {
+      return ''
+    }
+
+    return placeholder
   }
 
 }
