@@ -54,6 +54,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   templateRef: TemplateRef<any>;
   term = new UntypedFormControl();
   resultsVisible = false;
+  searchFocused = false;
   listData: IqSelect2Item[] = []
   fullDataList: IqSelect2Item[];
   selectedItems: IqSelect2Item[] = [];
@@ -104,7 +105,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
       filter((term) => term.length >= this.debounceLength),
       switchMap(term => this.loadDataFromObservable(term)),
       map(items => items.filter(item => !(this.multiple && this.alreadySelected(item)))),
-      tap(() => this.resultsVisible = true)
+      tap(() => this.resultsVisible = this.searchFocused)
     ).subscribe((items) => this.listData = items);
   }
 
@@ -219,7 +220,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     this.term.patchValue('', {emitEvent: false});
 
     if (this.multiple) {
-      setTimeout(() => {this.focusAndShowResults();}, 1);
+      setTimeout(() => this.focusAndShowResults(), 1);
     } else {
       this.resultsVisible = false;
       this.placeholderSelected = item.text;
@@ -265,13 +266,23 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   }
 
   onFocus() {
-    this.focusAndShowResults()
+    this.searchFocused = true
   }
 
   onBlur() {
     this.term.patchValue('', {emitEvent: false});
+    this.searchFocused = false;
     this.resultsVisible = false;
     this.onTouchedCallback();
+  }
+
+  focus() {
+    if (!this.disabled) {
+      this.termInput.nativeElement.focus();
+      this.resultsVisible = false;
+    }
+
+    this.searchFocused = !this.disabled;
   }
 
   focusAndShowResults() {
@@ -280,7 +291,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
       this.subscribeToResults(of(''));
     }
 
-    this.resultsVisible = !this.disabled;
+    this.searchFocused = !this.disabled;
   }
 
   onKeyUp(event: KeyboardEvent) {
