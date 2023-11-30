@@ -49,12 +49,6 @@
     }
   }
 
-  &:not(:focus-within) {
-    & input {
-      opacity: 0;
-    }
-  }
-
   & .select2-selected {
     width: 100%;
     padding: 0;
