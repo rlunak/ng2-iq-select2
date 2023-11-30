@@ -36,6 +36,7 @@
   & .select2-selection-container {
     display: grid;
     grid-auto-columns: 100%;
+    padding-right: 0.1em;
 
     & > * {
       grid-area: 1 / 1;
@@ -77,6 +78,7 @@
   align-items: baseline;
   justify-content: flex-start;
   gap: 0.2em;
+  overflow: hidden;
 
   list-style-type: none;
   padding: 0;
