@@ -17,9 +17,9 @@ const KEY_CODE_DELETE = 'Delete';
   templateUrl: './iq-select2.component.html',
   styleUrls: ['./iq-select2.component.css'],
   providers: [{
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => IqSelect2Component),
-      multi: true
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => IqSelect2Component),
+    multi: true
   }]
 })
 export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
@@ -338,13 +338,15 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   }
 
   getPlaceholder(): string {
-    const placeholder = this.selectedItems.length > 0 ? this.placeholderSelected : this.placeholder
-
-    if (!this.multiple && !this.searchFocused) {
-      return ''
+    if (this.selectedItems.length > 0) {
+      if (!this.multiple && !this.searchFocused) {
+        return ''
+      } else {
+        return this.placeholderSelected
+      }
     }
 
-    return placeholder
+    return this.placeholder
   }
 
 }
