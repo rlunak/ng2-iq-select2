@@ -37,6 +37,8 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   @Input() clientMode = false;
   @Input() badgeColor = 'info';
   @Input() wrapSelectedText = 'nowrap'
+  @Input() preventDeselect = false
+  @Input() consecutiveMultipleSelection = true
 
   @Input() debounceDelay = 250
   @Input() debounceLength = 2
@@ -48,6 +50,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   @Output() onSelect: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
   @Output() onRemove: EventEmitter<IqSelect2Item> = new EventEmitter<IqSelect2Item>();
 
+  @ViewChild('selectContainer') container: ElementRef
   @ViewChild('termInput') termInput: ElementRef
   @ViewChild('results') results: IqSelect2ResultsComponent;
 
@@ -68,6 +71,13 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
 
   ngAfterViewInit() {
     this.subscribeToChangesAndLoadDataFromObservable();
+
+    document.addEventListener("mousedown", event => {
+      if (!(this.container.nativeElement as HTMLElement).contains(event.target as Node)) {
+        this.resultsVisible = false;
+        this.searchFocused = false;
+      }
+    })
   }
 
   writeValue(selectedValues: any): void {
@@ -219,9 +229,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     this.onChangeCallback(this.buildValue());
     this.term.patchValue('', {emitEvent: false});
 
-    if (this.multiple) {
-      setTimeout(() => this.focusAndShowResults(), 1);
-    } else {
+    if (!this.multiple || !this.consecutiveMultipleSelection) {
       this.resultsVisible = false;
       this.placeholderSelected = item.text;
       this.termInput.nativeElement.blur()
@@ -271,8 +279,6 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
 
   onBlur() {
     this.term.patchValue('', {emitEvent: false});
-    this.searchFocused = false;
-    this.resultsVisible = false;
     this.onTouchedCallback();
   }
 
