@@ -1,7 +1,7 @@
 {
   "name": "ng2-iq-select2-exe",
   "repository": "rlunak/ng2-iq-select2",
-  "version": "16.2.7",
+  "version": "16.2.8",
   "peerDependencies": {
     "@angular/common": "^16.2.0",
     "@angular/core": "^16.2.0"

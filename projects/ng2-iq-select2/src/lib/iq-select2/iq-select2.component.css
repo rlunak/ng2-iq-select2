@@ -105,7 +105,7 @@
   font-size: 1em;
   width: 1em;
   height: 1em;
-  z-index: 5;
+  z-index: 10;
   display: grid;
   place-content: center;
 

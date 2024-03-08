@@ -16,7 +16,7 @@
   position: absolute;
   top: 100%;
   width: 100%;
-  z-index: 10;
+  z-index: 100;
   border: 1px solid var(--select2-color-border);
   background-color: var(--select2-color-background);
   padding: 0.1em;
