@@ -230,9 +230,8 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     this.term.patchValue('', {emitEvent: false});
 
     if (!this.multiple || !this.consecutiveMultipleSelection) {
-      this.resultsVisible = false;
       this.placeholderSelected = item.text;
-      this.termInput.nativeElement.blur()
+      this.afterItemSet()
     }
 
     this.onSelect.emit(item);
@@ -267,6 +266,14 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
     if (!this.multiple) {
       this.placeholderSelected = '';
     }
+
+    this.afterItemSet()
+  }
+
+  private afterItemSet() {
+    this.searchFocused = false
+    this.resultsVisible = false
+    this.termInput.nativeElement.blur()
   }
 
   private buildValue() {

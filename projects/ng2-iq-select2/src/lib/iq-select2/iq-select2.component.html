@@ -9,7 +9,7 @@
 
       <li *ngFor="let item of selectedItems" class="select2-selected">
         <span class="select2-selected-item" [ngStyle]="{whiteSpace: wrapSelectedText}" [title]="item.text">{{item.text}}</span>
-        <button *ngIf="!preventDeselect && !disabled" class="select2-icon select2-remove-button" aria-label="Close" (click)="removeItem(item)">
+        <button *ngIf="!preventDeselect && !disabled" class="select2-icon select2-remove-button" aria-label="Close" (click)="removeItem(item); $event.stopPropagation()">
           <span class="select2-selection-remove" [innerHTML]="iconDelete"></span>
         </button>
       </li>
