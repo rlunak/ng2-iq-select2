@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, Output, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, Output, TemplateRef, ViewChild} from '@angular/core';
 import {IqSelect2Item} from './iq-select2-item';
 import {IqSelect2ResultsComponent} from '../iq-select2-results/iq-select2-results.component';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl} from '@angular/forms';
@@ -12,6 +12,13 @@ const KEY_CODE_ENTER = 'Enter';
 const KEY_CODE_ESCAPE = 'Escape';
 const KEY_CODE_DELETE = 'Delete';
 
+function handleSelect(event) {
+  if (!(this.container.nativeElement as HTMLElement).contains(event.target as Node)) {
+    this.resultsVisible = false;
+    this.searchFocused = false;
+  }
+}
+
 @Component({
   selector: 'iq-select2',
   templateUrl: './iq-select2.component.html',
@@ -22,7 +29,7 @@ const KEY_CODE_DELETE = 'Delete';
     multi: true
   }]
 })
-export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
+export class IqSelect2Component implements AfterViewInit, ControlValueAccessor, OnDestroy {
 
   @Input() dataSourceProvider: (term: string, selected?: any[]) => Observable<any[]>;
   @Input() selectedProvider: (ids: string[]) => Observable<any[]>;
@@ -72,12 +79,11 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor {
   ngAfterViewInit() {
     this.subscribeToChangesAndLoadDataFromObservable();
 
-    document.addEventListener("mousedown", event => {
-      if (!(this.container.nativeElement as HTMLElement).contains(event.target as Node)) {
-        this.resultsVisible = false;
-        this.searchFocused = false;
-      }
-    })
+    document.addEventListener("mousedown", handleSelect)
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener("mousedown", handleSelect)
   }
 
   writeValue(selectedValues: any): void {
