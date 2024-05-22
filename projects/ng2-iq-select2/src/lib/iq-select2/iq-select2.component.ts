@@ -12,13 +12,6 @@ const KEY_CODE_ENTER = 'Enter';
 const KEY_CODE_ESCAPE = 'Escape';
 const KEY_CODE_DELETE = 'Delete';
 
-function handleSelect(event) {
-  if (!(this.container.nativeElement as HTMLElement).contains(event.target as Node)) {
-    this.resultsVisible = false;
-    this.searchFocused = false;
-  }
-}
-
 @Component({
   selector: 'iq-select2',
   templateUrl: './iq-select2.component.html',
@@ -79,11 +72,18 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor, 
   ngAfterViewInit() {
     this.subscribeToChangesAndLoadDataFromObservable();
 
-    document.addEventListener("mousedown", handleSelect)
+    document.addEventListener("mousedown", this.handleClickOutside)
   }
 
   ngOnDestroy(): void {
-    document.removeEventListener("mousedown", handleSelect)
+    document.removeEventListener("mousedown", this.handleClickOutside)
+  }
+
+  handleClickOutside = event => {
+    if (!(this.container.nativeElement as HTMLElement).contains(event.target as Node)) {
+      this.resultsVisible = false;
+      this.searchFocused = false;
+    }
   }
 
   writeValue(selectedValues: any): void {
