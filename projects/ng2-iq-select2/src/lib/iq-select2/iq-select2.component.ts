@@ -38,7 +38,7 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor, 
   @Input() badgeColor = 'info';
   @Input() wrapSelectedText = 'nowrap'
   @Input() preventDeselect = false
-  @Input() consecutiveMultipleSelection = true
+  @Input() consecutiveMultipleSelection = this.multiple
 
   @Input() debounceDelay = 250
   @Input() debounceLength = 2
@@ -235,8 +235,11 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor, 
     this.onChangeCallback(this.buildValue());
     this.term.patchValue('', {emitEvent: false});
 
-    if (!this.multiple || !this.consecutiveMultipleSelection) {
+    if (!this.multiple) {
       this.placeholderSelected = item.text;
+    }
+
+    if (!this.consecutiveMultipleSelection) {
       this.afterItemSet()
     }
 
