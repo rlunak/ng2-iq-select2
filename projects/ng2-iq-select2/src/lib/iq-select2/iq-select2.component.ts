@@ -235,11 +235,13 @@ export class IqSelect2Component implements AfterViewInit, ControlValueAccessor, 
     this.onChangeCallback(this.buildValue());
     this.term.patchValue('', {emitEvent: false});
 
-    if (!this.multiple) {
+    if (this.multiple) {
+      if (!this.consecutiveMultipleSelection) {
+        this.afterItemSet()
+      }
+    } else if (!this.multiple) {
       this.placeholderSelected = item.text;
-    }
 
-    if (!this.consecutiveMultipleSelection) {
       this.afterItemSet()
     }
 
